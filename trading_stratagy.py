@@ -50,7 +50,7 @@ class TradingStrategy:
             # Get the current week within the month
             current_week = (current_date.day - 1) // 7 + 1
 
-            file_path = 'output_banknifty_symbols.csv/
+            file_path = 'output_banknifty_symbols.csv'
             number_to_match = current_week
             string_to_match = current_month_text
 
