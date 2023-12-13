@@ -1,2 +1,3 @@
-pip install streamlit
-streamlit run main.py
+streamlit
+pandas
+concurrent.futures
