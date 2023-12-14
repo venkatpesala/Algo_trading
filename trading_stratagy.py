@@ -96,7 +96,7 @@ class TradingStrategy:
                 spot_symbols_bn_1=[]
                 spot_symbols_bn_1,current_week= self.fetch_spot_symbols_bn(spot_price)
                 spot_symbols_bn_1 = [element.split(',')[0] for element in spot_symbols_bn_1]
-                spot_symbols = spot_symbols_bn_1[current_week*2-2:current_week*2]
+                spot_symbols = spot_symbols_bn_1[current_week*3-2:current_week*3]
                 trading_symbol_ce= [string for string in spot_symbols if 'CE' in string] # convert list to string
                 trading_symbol_pe= [string for string in spot_symbols if 'PE' in string]
                 st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe,200)
@@ -139,7 +139,7 @@ class TradingStrategy:
 
                         print("waiting for CE target/sl & CE Traded Price: ",comparision_price,"current_CE_price :" ,current_price_ce, "stoploss_CE :",(current_price_ce-(0.1*comparision_price)),"Target_CE :",(current_price_ce+(0.1*current_price_ce)))
                         time.sleep(1)
-                        if current_price_ce-(percentage*0.5*current_price_ce) > comparision_price or  current_price_ce+(percentage*current_price_ce) < comparision_price:
+                        if current_price_ce-(percentage*current_price_ce) > comparision_price or  current_price_ce+(percentage*current_price_ce) < comparision_price:
 
                             order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
                                                 exchange=self.account.EXCHANGE_NFO,
@@ -173,7 +173,7 @@ class TradingStrategy:
                 spot_symbols_bn_1=[]
                 spot_symbols_bn_1,current_week= self.fetch_spot_symbols_bn(spot_price)
                 spot_symbols_bn_1 = [element.split(',')[0] for element in spot_symbols_bn_1]
-                spot_symbols = spot_symbols_bn_1[current_week*2-2:current_week*2]
+                spot_symbols = spot_symbols_bn_1[current_week*3-2:current_week*3]
                 trading_symbol_ce= [string for string in spot_symbols if 'CE' in string] # convert list to string
                 trading_symbol_pe= [string for string in spot_symbols if 'PE' in string]
                 st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe,200)
@@ -213,7 +213,7 @@ class TradingStrategy:
 
                         print("waiting for PE target/sl & PE Traded Price: ",comparision_price,"current_pe_price :" ,current_price_pe, "stoploss PE :",(current_price_pe-(0.01*comparision_price)),"Target PE :",(current_price_pe+(0.1*current_price_pe)))
 
-                        if current_price_pe-(percentage*0.5*current_price_pe) > comparision_price or  current_price_pe+(percentage*current_price_pe) < comparision_price:
+                        if current_price_pe-(percentage*current_price_pe) > comparision_price or  current_price_pe+(percentage*current_price_pe) < comparision_price:
 
                             order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
                                                 exchange=self.account.EXCHANGE_NFO,
