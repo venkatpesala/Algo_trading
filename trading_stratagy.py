@@ -78,7 +78,7 @@ class TradingStrategy:
 
 
             import datetime
-            target_time = datetime.time(9, 16,1)
+            target_time = datetime.time(4, 16,1)
             current_time = datetime.datetime.now().time()
 
 
@@ -155,7 +155,7 @@ class TradingStrategy:
 
 
             import datetime
-            target_time = datetime.time(9, 16,1)
+            target_time = datetime.time(4, 16,1)
             current_time = datetime.datetime.now().time()
 
 
