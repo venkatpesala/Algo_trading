@@ -22,17 +22,19 @@ import streamlit as st
 #     kite = KiteApp(enctoken=details['enctoken'])
 #     kite_accounts.append(kite)
 
-
+# "GvlCkFfujdJpTVNhM/nd3aBdkLdHTitUfLDL5J7MxDi/RSCqZCe2HwE/EW2rNOr0yM7JcK/B+YlYdaM200dpLNOtOpzYx9yKT37cSQ8yXYbX4pC6gimj4Q=="
+# "k75aEcz553ibRVvhkEgSBc5wY16x9BnOZfmddBGp7NMctVmVvoBwgVe7KRGX9hx3dRSciEK4lVGIKMDQdsuRRUlP1r7bA0nBodpzWYtMCoNQpqrJCCGWtg=="
 
 ##############################################################################################################
 
 class TradingStrategy:
         
 
-        def __init__(self, account, qty, riskpercent):
+        def __init__(self, account, qty, riskpercent,lock):
             self.account = account
             self.qty = qty
             self.percentage = riskpercent
+            self.lock = lock
 
 
 
@@ -77,7 +79,7 @@ class TradingStrategy:
 
 
             import datetime
-            target_time = datetime.time(9, 16,1)
+            target_time = datetime.time(9, 17,1)
             current_time = datetime.datetime.now().time()
 
             
@@ -95,23 +97,23 @@ class TradingStrategy:
                 spot_symbols_bn_1=[]
                 spot_symbols_bn_1,current_week= self.fetch_spot_symbols_bn(spot_price)
                 spot_symbols_bn_1 = [element.split(',')[0] for element in spot_symbols_bn_1]
-                spot_symbols = spot_symbols_bn_1[current_week*3-2:current_week*3]
+                spot_symbols = spot_symbols_bn_1[current_week*2:current_week*2+2]
                 trading_symbol_ce= [string for string in spot_symbols if 'CE' in string] # convert list to string
                 trading_symbol_pe= [string for string in spot_symbols if 'PE' in string]
-                st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe,100)
-                st2_trade_symbol_ce = self.modify_spotprice(trading_symbol_ce,-100)
+                st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe,0)
+                st2_trade_symbol_ce = self.modify_spotprice(trading_symbol_ce,-0)
 
 
-                print(st2_trade_symbol_pe,st2_trade_symbol_ce)
+                print("Trade symbols from CE Thread",st2_trade_symbol_pe,st2_trade_symbol_ce)
                 
                 # previous_price_ce=current_price_ce
 
                 previous_price_ce = self.account.ltp("NFO:" + st2_trade_symbol_ce[0])
                 previous_price_ce = previous_price_ce["NFO:" + st2_trade_symbol_ce[0]]['last_price']
 
-                # print("time :",datetime.datetime.now().time(), "Previous_CE_Price :",previous_price_ce)
+                print("time :",datetime.datetime.now().time(), "Previous_CE_Price :",previous_price_ce)
                 # st.write("time :",datetime.datetime.now().time(), "Previous_CE_Price :",previous_price_ce)
-                time.sleep(50)
+                time.sleep(57)
                 current_price_ce = self.account.ltp("NFO:" + st2_trade_symbol_ce[0])
                 current_price_ce = current_price_ce["NFO:" + st2_trade_symbol_ce[0]]['last_price']
 
@@ -119,47 +121,50 @@ class TradingStrategy:
                 # print("time :",datetime.datetime.now().time(), "Current_CE_Price :",current_price_ce,"Percentage change in CE :",percentage_change)
                 # print("User given percentage:", self.percentage)
 
-                print("Change in CE percentage:",percentage_change)
+                print("Change in CE percentage:###################",percentage_change)
                 if (percentage_change>=self.percentage):
                     percentage = self.percentage/100
 
+                    with self.lock:
 
-                    order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
-                                            exchange=self.account.EXCHANGE_NFO,
-                                            tradingsymbol=st2_trade_symbol_ce[0],
-                                            transaction_type=self.account.TRANSACTION_TYPE_BUY,
-                                            quantity=self.qty,
-                                            product=self.account.PRODUCT_MIS,
-                                            order_type=self.account.ORDER_TYPE_MARKET)
-                    buy_price = self.account.ltp("NFO:" + st2_trade_symbol_ce[0])
-                    buy_price = buy_price["NFO:" + st2_trade_symbol_ce[0]]['last_price']
-                    while True:
-                        current_price = self.account.ltp("NFO:" + st2_trade_symbol_ce[0])
-                        current_price = current_price["NFO:" + st2_trade_symbol_ce[0]]['last_price']
-                        time.sleep(1)
 
-                        print("waiting for CE target/sl & CE Traded Price: ",buy_price,"current_CE_price :" ,current_price, "stoploss_CE :",(buy_price-(0.1*buy_price)),"Target_CE :",(buy_price+(0.1*buy_price)))
-                        #st.write("waiting for CE target/sl & CE Traded Price: ",comparision_price,"current_CE_price :" ,current_price_ce, "stoploss_CE :",(current_price_ce-(0.1*comparision_price)),"Target_CE :",(current_price_ce+(0.1*current_price_ce)))
-
-                        time.sleep(1)
-                        if buy_price-(percentage*buy_price) > current_price or  buy_price+(percentage*buy_price) < current_price:
-
-                            order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
+                        order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
                                                 exchange=self.account.EXCHANGE_NFO,
                                                 tradingsymbol=st2_trade_symbol_ce[0],
-                                                transaction_type=self.account.TRANSACTION_TYPE_SELL,
+                                                transaction_type=self.account.TRANSACTION_TYPE_BUY,
                                                 quantity=self.qty,
                                                 product=self.account.PRODUCT_MIS,
                                                 order_type=self.account.ORDER_TYPE_MARKET)
-                            print("Trade completed successfully at :",current_price)
-                            break
+                        buy_price = self.account.ltp("NFO:" + st2_trade_symbol_ce[0])
+                        buy_price = buy_price["NFO:" + st2_trade_symbol_ce[0]]['last_price']
+                        while True:
+                            current_price = self.account.ltp("NFO:" + st2_trade_symbol_ce[0])
+                            current_price = current_price["NFO:" + st2_trade_symbol_ce[0]]['last_price']
+
+                            # print("waiting for CE target/sl & CE Traded Price: ",buy_price,"current_CE_price :" ,current_price, "stoploss_CE :",(buy_price-(0.1*buy_price)),"Target_CE :",(buy_price+(0.1*buy_price)))
+                            print("CE Buy Price , waiting for CE target/sl & CE Traded Price: ",buy_price,"current_CE_price :" ,current_price, "stoploss_CE :",(buy_price-30),"Target_CE :",(buy_price+30))
+                            #st.write("waiting for CE target/sl & CE Traded Price: ",comparision_price,"current_CE_price :" ,current_price_ce, "stoploss_CE :",(current_price_ce-(0.1*comparision_price)),"Target_CE :",(current_price_ce+(0.1*current_price_ce)))
+
+                            
+                            # if buy_price-(percentage*buy_price) > current_price or  buy_price+(percentage*buy_price) < current_price:
+                            if buy_price-30 > current_price or  buy_price+30 < current_price:
+
+                                order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
+                                                    exchange=self.account.EXCHANGE_NFO,
+                                                    tradingsymbol=st2_trade_symbol_ce[0],
+                                                    transaction_type=self.account.TRANSACTION_TYPE_SELL,
+                                                    quantity=self.qty,
+                                                    product=self.account.PRODUCT_MIS,
+                                                    order_type=self.account.ORDER_TYPE_MARKET)
+                                print("Trade completed successfully at :",current_price)
+                                break
 
 
         def Momentum_PE(self):
 
 
             import datetime
-            target_time = datetime.time(9, 16,1)
+            target_time = datetime.time(9, 17,1)
             current_time = datetime.datetime.now().time()
 
             #st.write("Waiting for market to start")
@@ -177,56 +182,59 @@ class TradingStrategy:
                 spot_symbols_bn_1=[]
                 spot_symbols_bn_1,current_week= self.fetch_spot_symbols_bn(spot_price)
                 spot_symbols_bn_1 = [element.split(',')[0] for element in spot_symbols_bn_1]
-                spot_symbols = spot_symbols_bn_1[current_week*3-2:current_week*3]
+                spot_symbols = spot_symbols_bn_1[current_week*2:current_week*2+2]
                 trading_symbol_ce= [string for string in spot_symbols if 'CE' in string] # convert list to string
                 trading_symbol_pe= [string for string in spot_symbols if 'PE' in string]
-                st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe,200)
-                st2_trade_symbol_ce = self.modify_spotprice(trading_symbol_ce,-200)
+                st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe,0)
+                st2_trade_symbol_ce = self.modify_spotprice(trading_symbol_ce,-0)
+                print("Trade symbols from PE Thread",st2_trade_symbol_pe,st2_trade_symbol_ce)
 
 
-
-                print("In PE Momentum #####")
+                # print("In PE Momentum #####")
                 previous_price_pe = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
                 previous_price_pe = previous_price_pe["NFO:" + st2_trade_symbol_pe[0]]['last_price']
                 print("time :",datetime.datetime.now().time(), "Previous_PE_Price :",previous_price_pe)
-                time.sleep(50)
+                time.sleep(57)
                 current_price_pe = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
                 current_price_pe = current_price_pe["NFO:" + st2_trade_symbol_pe[0]]['last_price']
 
                 percentage_change= ((current_price_pe-previous_price_pe)/current_price_pe) *100
                 # print("time :",datetime.datetime.now().time(), "Current_PE_Price :",current_price_pe,"Percentage change in PE :",percentage_change)
                 # print("User given percentage:", self.percentage)
-
+                print("Change in PE percentage:#############################",percentage_change)
                 if (percentage_change>=self.percentage):
                     percentage= self.percentage/100
 
-
-                    order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
-                                            exchange=self.account.EXCHANGE_NFO,
-                                            tradingsymbol=st2_trade_symbol_pe[0],
-                                            transaction_type=self.account.TRANSACTION_TYPE_BUY,
-                                            quantity=self.qty,
-                                            product=self.account.PRODUCT_MIS,
-                                            order_type=self.account.ORDER_TYPE_MARKET)
-                    comparision_price = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
-                    comparision_price = comparision_price["NFO:" + st2_trade_symbol_pe[0]]['last_price']
-                    while True:
-                        comparision_price = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
-                        comparision_price = comparision_price["NFO:" + st2_trade_symbol_pe[0]]['last_price']
-                        time.sleep(1)
-
-                        print("waiting for PE target/sl & PE Traded Price: ",comparision_price,"current_pe_price :" ,current_price_pe, "stoploss PE :",(current_price_pe-(0.01*comparision_price)),"Target PE :",(current_price_pe+(0.1*current_price_pe)))
-
-                        if current_price_pe-(percentage*current_price_pe) > comparision_price or  current_price_pe+(percentage*current_price_pe) < comparision_price:
-
-                            order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
+                    with self.lock:
+                        order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
                                                 exchange=self.account.EXCHANGE_NFO,
-                                                tradingsymbol=st2_trade_symbol_pe,
-                                                transaction_type=self.account.TRANSACTION_TYPE_SELL,
+                                                tradingsymbol=st2_trade_symbol_pe[0],
+                                                transaction_type=self.account.TRANSACTION_TYPE_BUY,
                                                 quantity=self.qty,
                                                 product=self.account.PRODUCT_MIS,
                                                 order_type=self.account.ORDER_TYPE_MARKET)
-                            break                   
+                        buy_price = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
+                        buy_price = buy_price["NFO:" + st2_trade_symbol_pe[0]]['last_price']
+                        while True:
+                            current_price = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
+                            current_price = current_price["NFO:" + st2_trade_symbol_pe[0]]['last_price']
+                            time.sleep(1)
+
+                            # print("waiting for PE target/sl & PE Traded Price: ",comparision_price,"current_pe_price :" ,current_price_pe, "stoploss PE :",(current_price_pe-(0.01*comparision_price)),"Target PE :",(current_price_pe+(0.1*current_price_pe)))
+                            print("PE  Bought price & waiting for PE target/sl & PE Traded Price: ",buy_price,"current_pe_price :" ,current_price, "stoploss PE :",(buy_price-30),"Target PE :",(buy_price+30))
+
+
+                            # if current_price_pe-(percentage*current_price_pe) > comparision_price or  current_price_pe+(percentage*current_price_pe) < comparision_price:
+                            if buy_price-30 > current_price or  buy_price+30 < current_price:    
+
+                                order = self.account.place_order(variety=self.account.VARIETY_REGULAR,
+                                                    exchange=self.account.EXCHANGE_NFO,
+                                                    tradingsymbol=st2_trade_symbol_pe,
+                                                    transaction_type=self.account.TRANSACTION_TYPE_SELL,
+                                                    quantity=self.qty,
+                                                    product=self.account.PRODUCT_MIS,
+                                                    order_type=self.account.ORDER_TYPE_MARKET)
+                                break                   
 
         def ninetwenty_stratefy(self,):
             import datetime
@@ -308,13 +316,16 @@ class TradingStrategy:
    
 def run_trading_startagies(account_details,quantity,riskpercentage,momentum_trading_enabled):
     kite_accounts = []
+    starategy_instances = []
+    lock = threading.Lock()
 
     # Initialize KiteConnect instances for each account
     for details in account_details:
         kite = KiteApp(enctoken=details)
         kite_accounts.append(kite)
 
-        starategy_instances = [TradingStrategy(account,riskpercentage,quantity) for account in kite_accounts]
+        # starategy_instances = [TradingStrategy(account,riskpercentage,quantity) for account in kite_accounts]
+        starategy_instances.append(TradingStrategy(kite, quantity, riskpercentage, lock))
 
     # Create a ThreadPoolExecutor
     with ThreadPoolExecutor(max_workers=len(account_details) * 4) as executor:
