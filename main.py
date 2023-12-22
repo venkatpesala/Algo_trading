@@ -1,5 +1,9 @@
 import streamlit as st
 from trading_stratagy import run_trading_startagies
+import os
+
+port = int(os.environ.get("PORT", 5000))
+st.port(port)
 
 def main():
     st.title("Trading Automation UI")
