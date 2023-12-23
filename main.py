@@ -6,7 +6,7 @@ import os
 port = int(os.environ.get("PORT", 5000))
 
 # Use st.set_page_config to set the port
-st.set_page_config(port=port)
+# st.set_page_config(port=port)
 
 def main():
     st.title("Trading Automation UI")
