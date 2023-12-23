@@ -2,8 +2,11 @@ import streamlit as st
 from trading_stratagy import run_trading_startagies
 import os
 
+# Use the Heroku-assigned port or default to 5000
 port = int(os.environ.get("PORT", 5000))
-st.port(port)
+
+# Use st.set_page_config to set the port
+st.set_page_config(port=port)
 
 def main():
     st.title("Trading Automation UI")
