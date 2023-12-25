@@ -35,8 +35,8 @@ def main():
         user_tokens_list = [token.strip() for token in user_tokens.split(',')]
 
         # Call your trading function with the inputs
-        run_trading_startagies(user_tokens_list, risk_percentage, quantity,momentum_trading_enabled)
-        # run_ninetwnety_strategy(user_tokens_list,nine_twenty_trading_enabled)
+        st_instance = st
+        run_trading_startagies(user_tokens_list, risk_percentage, quantity,momentum_trading_enabled,st_instance)
 
 
 if __name__ == "__main__":
