@@ -7,6 +7,10 @@ import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import streamlit as st
 import asyncio
+import pytz
+
+# Set the time zone for the entire script
+IST = pytz.timezone('Asia/Kolkata')
 
 
 
