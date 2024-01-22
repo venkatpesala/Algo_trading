@@ -5,7 +5,7 @@ import os
 import pytz
 
 # Set the time zone for the entire script
-IST = pytz.timezone('Asia/Kolkata')
+# IST = pytz.timezone('Asia/Kolkata')
 
 
 # Use the Heroku-assigned port or default to 5000
