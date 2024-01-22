@@ -81,6 +81,9 @@ class TradingStrategy:
             target_time2 = datetime.time(11, 59, 0)
 
             exit_time= datetime.time(15, 4, 0)
+            current_time = datetime.datetime.now()
+            pt = f" current time is {current_time}"
+            self.report_to_streamlit(pt)
 
             while datetime.datetime.now().time() < exit_time:
                 # time.sleep(1)
