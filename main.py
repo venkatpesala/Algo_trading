@@ -2,6 +2,11 @@ import streamlit as st
 from trading_stratagy import run_trading_startagies
 from Trading_PE_CE import run_trading_startagies_PE_CE
 import os
+import pytz
+
+# Set the time zone for the entire script
+IST = pytz.timezone('Asia/Kolkata')
+
 
 # Use the Heroku-assigned port or default to 5000
 port = int(os.environ.get("PORT", 5000))
