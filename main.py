@@ -43,7 +43,7 @@ def main():
         message_container = st.empty()
         # run_trading_startagies(user_tokens_list, risk_percentage, quantity,momentum_trading_enabled,st_instance)
         # run_trading_startagies_PE_CE(user_tokens_list, risk_percentage, quantity,momentum_trading_enabled,st_instance,message_container)
-        run_trading_startagies_PE_CE(user_tokens_list, 7, 30,True,st_instance,message_container)
+        run_trading_startagies_PE_CE(user_tokens_list, 5, 15,True,st_instance,message_container)
 
 
 if __name__ == "__main__":
