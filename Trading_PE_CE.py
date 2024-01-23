@@ -81,10 +81,10 @@ class TradingStrategy:
 
         def Momentum(self):
             import datetime
-            target_time = datetime.time(9, 17, 0)
+            target_time = datetime.time(3, 47, 0)
             target_time2 = datetime.time(11, 59, 0)
 
-            exit_time= datetime.time(15, 4, 0)
+            exit_time= datetime.time(9, 34, 0)
             current_time = datetime.datetime.now()
             pt = f" current time is {current_time}"
             self.report_to_streamlit(pt)
