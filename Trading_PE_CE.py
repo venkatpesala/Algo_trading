@@ -23,6 +23,7 @@ class TradingStrategy:
             self.percentage = riskpercent
             self.st_instance = st_instance
             self.message_container =message_container
+            self.messages = []  # List to store messages
             # self.report_to_streamlit("User Given Percentage",self.percentage)
             
 
@@ -39,18 +40,18 @@ class TradingStrategy:
             current_month = current_date.month
 
             # Get the current week within the month
-            # current_week_1 = (current_date.day - 1) // 7 + 1
-            # day_num = current_date.strftime('%w')
-            # if ( day_num == '3' ):
-            #     current_week = current_week_1 + 1
-            # else:
-            #     current_week =current_week_1
+            current_week_1 = (current_date.day - 1) // 7 + 1
+            day_num = current_date.strftime('%w')
+            if ( day_num == '1' or day_num==2 ):
+                current_week = 0
+            else:
+                current_week = 1
             # print("Day:",day_num) 
             # print("Current Week:",current_week) 
             # current_week= 4
             # current_month_text='January'
             # current_month=1
-            current_week=3
+            # current_week=3
 
             file_path = 'output_banknifty_symbols.csv'
             number_to_match = current_week
@@ -77,6 +78,7 @@ class TradingStrategy:
         def report_to_streamlit(self, message):
         # Use st.text or st.markdown to display messages in Streamlit
             # self.st_instance.text(message)
+            self.messages.append(message)  # Append the new message to the list
             self.message_container.text(message)
 
         def Momentum(self):
@@ -84,7 +86,8 @@ class TradingStrategy:
             target_time = datetime.time(3, 47, 0)
             target_time2 = datetime.time(11, 59, 0)
 
-            exit_time= datetime.time(9, 34, 0)
+            # exit_time= datetime.time(9, 34, 0) ## UK Timings in heroku
+            exit_time= datetime.time(23, 34, 0)
             current_time = datetime.datetime.now()
             pt = f" current time is {current_time}"
             self.report_to_streamlit(pt)
@@ -105,7 +108,7 @@ class TradingStrategy:
                     spot_symbols_bn_1 = []
                     spot_symbols_bn_1, current_week = self.fetch_spot_symbols_bn(spot_price)
                     spot_symbols_bn_1 = [element.split(',')[0] for element in spot_symbols_bn_1]
-                    spot_symbols = spot_symbols_bn_1[current_week * 2-2 :current_week * 2]
+                    spot_symbols = spot_symbols_bn_1[current_week * 2 :current_week * 2+2]
                     trading_symbol_ce = [string for string in spot_symbols if 'CE' in string]
                     trading_symbol_pe = [string for string in spot_symbols if 'PE' in string]
                     st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe, 200)
@@ -191,7 +194,7 @@ class TradingStrategy:
 
                         self.report_to_streamlit(message_pe_order)
 
-                        status_message_pe = " Waiting for right time to exit happy stoploss or profit.."
+                        status_message_pe = " Waiting for right time to exit with happy stoploss or profit.."
                         self.report_to_streamlit(status_message_pe)
 
                         while True:
@@ -247,7 +250,7 @@ class TradingStrategy:
 
                         self.report_to_streamlit(message_ce_order)
 
-                        status_message_ce = " Waiting for right time to exit happy stoploss or profit.."
+                        status_message_ce = " Waiting for right time to exit with happy stoploss or profit.."
                         self.report_to_streamlit(status_message_ce)
 
                         while True:
@@ -293,10 +296,6 @@ def run_trading_startagies_PE_CE(account_details,quantity,riskpercentage,momentu
     for strategy_instance in strategy_instances:
         strategy_instance.Momentum()
 
-
-
-
-               
 
 
 
