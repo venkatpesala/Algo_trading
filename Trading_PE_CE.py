@@ -86,8 +86,8 @@ class TradingStrategy:
             target_time = datetime.time(3, 47, 0)
             target_time2 = datetime.time(11, 59, 0)
 
-            # exit_time= datetime.time(9, 34, 0) ## UK Timings in heroku
-            exit_time= datetime.time(23, 34, 0)
+            exit_time= datetime.time(9, 34, 0) ## UK Timings in heroku
+            # exit_time= datetime.time(23, 34, 0)
             current_time = datetime.datetime.now()
             pt = f" current time is {current_time}"
             self.report_to_streamlit(pt)
@@ -203,7 +203,7 @@ class TradingStrategy:
                             time.sleep(1)
 
                             if (buy_price - 30 > current_price or buy_price + 30 < current_price) or \
-                                 datetime.datetime.now().time() > datetime.time(14, 58, 0) :
+                                 datetime.datetime.now().time() > datetime.time(9, 34, 0) :
 
                                 order = self.account.place_order(
                                     variety=self.account.VARIETY_REGULAR,
