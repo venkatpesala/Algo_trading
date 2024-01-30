@@ -38,7 +38,7 @@ def main():
         # Call your trading function with the inputs
         st_instance = st
         message_container = st.empty()
-        run_trading_startagies_PE_CE(user_tokens_list, 7, 30, True, st_instance, message_container)
+        run_trading_startagies_PE_CE(user_tokens_list, 7, quantity, True, st_instance, message_container)
 
 
 if __name__ == "__main__":
