@@ -42,7 +42,7 @@ class TradingStrategy:
             # Get the current week within the month
             current_week_1 = (current_date.day - 1) // 7 + 1
             day_num = current_date.strftime('%w')
-            if ( day_num == '1' or day_num=='3' ):
+            if ( day_num == '1' or day_num=='4' ):
                 current_week = 0
             else:
                 current_week = 1
@@ -130,7 +130,7 @@ class TradingStrategy:
 
                     waiting_time=0
                     while waiting_time<160:
-                        time.sleep(5)
+                        time.sleep(2)
 
                         current_price_pe = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
                         current_price_pe = current_price_pe["NFO:" + st2_trade_symbol_pe[0]]['last_price']
