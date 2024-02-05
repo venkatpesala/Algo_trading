@@ -130,7 +130,7 @@ class TradingStrategy:
 
                     waiting_time=0
                     while waiting_time<160:
-                        time.sleep(2)
+                        time.sleep(4)
 
                         current_price_pe = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
                         current_price_pe = current_price_pe["NFO:" + st2_trade_symbol_pe[0]]['last_price']
@@ -140,7 +140,7 @@ class TradingStrategy:
 
                         percentage_change_pe = ((current_price_pe - previous_price_pe) / previous_price_pe) * 100
                         percentage_change_ce = ((current_price_ce - previous_price_ce) / previous_price_ce) * 100
-                        waiting_time=waiting_time+2
+                        waiting_time=waiting_time+4
                         if percentage_change_pe >= self.percentage:
                             waiting_time=161
                         elif percentage_change_ce >= self.percentage:
