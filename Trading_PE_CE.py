@@ -140,7 +140,7 @@ class TradingStrategy:
 
                         percentage_change_pe = ((current_price_pe - previous_price_pe) / previous_price_pe) * 100
                         percentage_change_ce = ((current_price_ce - previous_price_ce) / previous_price_ce) * 100
-                        waiting_time=waiting_time+5
+                        waiting_time=waiting_time+2
                         if percentage_change_pe >= self.percentage:
                             waiting_time=161
                         elif percentage_change_ce >= self.percentage:
