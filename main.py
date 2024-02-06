@@ -10,10 +10,10 @@ port = int(os.environ.get("PORT", 5000))
 # st.set_page_config(port=port)
 
 def main():
-    st.title("Trading Automation UI")
+    st.title("AI Algo Bot")
 
     # Input for user tokens
-    user_tokens = st.text_area("Enter User Tokens (comma-separated)", help="Example: token1, token2")
+    user_tokens = st.text_area("Enter User's Kite encToken")
 
         # Main Content
     # st.header("Trading Parameters")
