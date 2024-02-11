@@ -42,7 +42,7 @@ class TradingStrategy:
             # Get the current week within the month
             current_week_1 = (current_date.day - 1) // 7 + 1
             day_num = current_date.strftime('%w')
-            if ( day_num == '1' or day_num=='3' ):
+            if ( day_num == '1' or day_num=='2' or day_num=='0'):
                 current_week = 0
             else:
                 current_week = 1
@@ -111,8 +111,8 @@ class TradingStrategy:
                     spot_symbols = spot_symbols_bn_1[current_week * 2 :current_week * 2+2]
                     trading_symbol_ce = [string for string in spot_symbols if 'CE' in string]
                     trading_symbol_pe = [string for string in spot_symbols if 'PE' in string]
-                    st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe, 00)
-                    st2_trade_symbol_ce = self.modify_spotprice(trading_symbol_ce, -00)
+                    st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe, 100)
+                    st2_trade_symbol_ce = self.modify_spotprice(trading_symbol_ce, -100)
 
                     previous_price_pe = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
                     previous_price_pe = previous_price_pe["NFO:" + st2_trade_symbol_pe[0]]['last_price']
