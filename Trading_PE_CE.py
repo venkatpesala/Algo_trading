@@ -111,8 +111,8 @@ class TradingStrategy:
                     spot_symbols = spot_symbols_bn_1[current_week * 2 :current_week * 2+2]
                     trading_symbol_ce = [string for string in spot_symbols if 'CE' in string]
                     trading_symbol_pe = [string for string in spot_symbols if 'PE' in string]
-                    st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe, 0)
-                    st2_trade_symbol_ce = self.modify_spotprice(trading_symbol_ce, -0)
+                    st2_trade_symbol_pe = self.modify_spotprice(trading_symbol_pe, 200)
+                    st2_trade_symbol_ce = self.modify_spotprice(trading_symbol_ce, -200)
 
                     previous_price_pe = self.account.ltp("NFO:" + st2_trade_symbol_pe[0])
                     previous_price_pe = previous_price_pe["NFO:" + st2_trade_symbol_pe[0]]['last_price']
