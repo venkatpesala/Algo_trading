@@ -216,7 +216,7 @@ class TradingStrategy:
                                 )
 
                                 print("PE trade executed successfully at $$$$$$$$$$$$", current_price)
-                                message_pe_complete = f" CE tade executed succssfully at $$$$$$,:{current_price}"
+                                message_pe_complete = f" PE tade executed succssfully at $$$$$$,:{current_price}"
                                 self.report_to_streamlit(message_pe_complete)
 
                                 break  
