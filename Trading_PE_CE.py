@@ -43,7 +43,7 @@ class TradingStrategy:
             current_week_1 = (current_date.day - 1) // 7 + 1
             day_num = current_date.strftime('%w')
             if ( day_num == '1' or day_num=='2' or day_num=='0'):
-                current_week = 1
+                current_week = 0
             else:
                 current_week = 1
             # print("Day:",day_num) 
@@ -86,8 +86,8 @@ class TradingStrategy:
             target_time = datetime.time(3, 47, 0)
             target_time2 = datetime.time(11, 59, 0)
 
-            exit_time= datetime.time(9, 34, 0) ## UK Timings in heroku
-            # exit_time= datetime.time(23, 34, 0)
+            #exit_time= datetime.time(9, 34, 0) ## UK Timings in heroku
+            exit_time= datetime.time(23, 34, 0)
             current_time = datetime.datetime.now()
             pt = f" current time is {current_time}"
             self.report_to_streamlit(pt)
@@ -161,9 +161,9 @@ class TradingStrategy:
                     self.report_to_streamlit(message_ce)
 
 
-                    status_message = "Scanning BankNifty options for profitable entries..."
-                    status_message += " Please be patient, our AI algorithm is evaluating market conditions."
-                    self.report_to_streamlit(status_message)    
+                    # status_message = "Scanning BankNifty options for profitable entries..."
+                    # status_message += " Please be patient, our AI algorithm is evaluating market conditions."
+                    # self.report_to_streamlit(status_message)    
 
                     if percentage_change_pe >= self.percentage:
                         percentage = self.percentage / 100
