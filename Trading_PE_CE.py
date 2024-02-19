@@ -202,7 +202,7 @@ class TradingStrategy:
                             current_price = current_price["NFO:" + st2_trade_symbol_pe[0]]['last_price']
                             time.sleep(1)
 
-                            if (buy_price - 30 > current_price or buy_price + 30 < current_price) or \
+                            if (buy_price - 30 > current_price or buy_price + 20 < current_price) or \
                                  datetime.datetime.now().time() > datetime.time(9, 34, 0) :
 
                                 order = self.account.place_order(
@@ -258,7 +258,7 @@ class TradingStrategy:
                             current_price = current_price["NFO:" + st2_trade_symbol_ce[0]]['last_price']
                             time.sleep(1)
 
-                            if (buy_price - 30 > current_price or buy_price + 30 < current_price) or \
+                            if (buy_price - 30 > current_price or buy_price + 20 < current_price) or \
                                  datetime.datetime.now().time() > datetime.time(14, 58, 0) :
 
                                 order = self.account.place_order(
