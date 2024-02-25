@@ -163,7 +163,7 @@ class TradingStrategy:
 
                     status_message = "Scanning BankNifty options for profitable entries..."
                     status_message += " Please be patient, our AI algorithm is evaluating market conditions."
-                    self.report_to_streamlit(status_message)    
+                    # self.report_to_streamlit(status_message)    
 
                     if percentage_change_pe >= self.percentage:
                         percentage = self.percentage / 100
@@ -218,6 +218,7 @@ class TradingStrategy:
                                 print("PE trade executed successfully at $$$$$$$$$$$$", current_price)
                                 message_pe_complete = f" PE tade executed succssfully at $$$$$$,:{current_price}"
                                 self.report_to_streamlit(message_pe_complete)
+                                time.sleep(110)         
 
                                 break  
                     elif percentage_change_ce >= self.percentage:
@@ -274,6 +275,7 @@ class TradingStrategy:
                                 print("CE trade executed successfully at $$$$$$$$$$$$", current_price)
                                 message_ce_complete = f" CE tade executed succssfully at $$$$$$,:{current_price}"
                                 self.report_to_streamlit(message_ce_complete)
+                                time.sleep(110)
 
                                 break                                    
 
