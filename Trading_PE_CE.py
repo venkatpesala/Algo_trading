@@ -121,7 +121,7 @@ class TradingStrategy:
                     previous_price_ce = self.account.ltp("NFO:" + st2_trade_symbol_ce[0])
                     previous_price_ce = previous_price_ce["NFO:" + st2_trade_symbol_ce[0]]['last_price']
 
-                    message_symbols = f" spot_symbols_bn_1 "
+                    message_symbols = f" {spot_symbols_bn_1} "
 
                     self.report_to_streamlit(message_symbols)    
 
