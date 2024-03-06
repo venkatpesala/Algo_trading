@@ -45,7 +45,7 @@ class TradingStrategy:
             if ( day_num == '1' or day_num=='2' or day_num=='0'):
                 current_week = 0
             else:
-                current_week = 0
+                current_week = 1
             # print("Day:",day_num) 
             # print("Current Week:",current_week) 
             # current_week= 4
