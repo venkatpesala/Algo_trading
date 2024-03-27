@@ -46,7 +46,7 @@ class TradingStrategy:
             if ( day_num == '1' or day_num=='0' or day_num=="2" ):
                 current_week = 1
             else:
-                current_week = 0
+                current_week = 1
             # print("Day:",day_num) 
             # print("Current Week:",current_week) 
             # current_week= 4
@@ -319,6 +319,15 @@ class TradingStrategy:
                                 break
                             elif ( target1 < current_price) or \
                                  datetime.datetime.now().time() > datetime.time(14, 58, 0) :
+                                order = self.account.place_order(
+                                variety=self.account.VARIETY_REGULAR,
+                                exchange=self.account.EXCHANGE_NFO,
+                                tradingsymbol=st2_trade_symbol_ce,
+                                transaction_type=self.account.TRANSACTION_TYPE_SELL,
+                                quantity=self.qty/2,
+                                product=self.account.PRODUCT_MIS,
+                                order_type=self.account.ORDER_TYPE_MARKET
+                                self.qty = self.qty/2
                                 while True:
                                     current_price = self.account.ltp("NFO:" + st2_trade_symbol_ce[0])
                                     current_price = current_price["NFO:" + st2_trade_symbol_ce[0]]['last_price']
@@ -333,9 +342,10 @@ class TradingStrategy:
                                             product=self.account.PRODUCT_MIS,
                                             order_type=self.account.ORDER_TYPE_MARKET
                                         )
+                                        break
                                     elif target2 < current_price:
                                         target1 = target2-10
-                                        target2= current_price+10
+                                        target2= current_price+20
     
 
                                 print("CE trade executed with PROFIT  at $$$$$$$$$$$$", current_price)
