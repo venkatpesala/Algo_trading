@@ -28,7 +28,7 @@ def main():
 
     # Input for % Risk and Quantity
     # risk_percentage = st.number_input("Enter % Risk", min_value=0.1, max_value=100.0, step=0.1, value=1.0)
-    quantity = st.number_input("Enter Quantity", min_value=15, step=15, value=30)
+    quantity = st.number_input("Enter Quantity ( Multiples of 30 Only like 30,60,90,120,...)", min_value=30, step=30, value=30)
 
     # Button to trigger trading
     if st.button("Start Trading"):
